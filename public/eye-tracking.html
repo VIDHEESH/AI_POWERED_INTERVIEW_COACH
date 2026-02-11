@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Tracking Practice | AI Interview Coach</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .eye-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid var(--border);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-container canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .warning-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: none;
+            z-index: 10;
+            letter-spacing: 1px;
+        }
+
+        .emotion-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .eye-controls {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .eye-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .eye-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .eye-btn.primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .eye-btn.danger {
+            background: linear-gradient(135deg, var(--error), #dc2626);
+            color: #fff;
+        }
+
+        .eye-btn.secondary {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+        }
+
+        .eye-btn.secondary:hover {
+            background: rgba(var(--primary-rgb), 0.08);
+            border-color: var(--primary);
+        }
+
+        /* Info sidebar */
+        .info-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+
+        .info-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card h4 i {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        .info-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card ul li {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 0.4rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .info-card ul li i {
+            color: var(--success);
+            font-size: 0.7rem;
+            margin-top: 0.2rem;
+        }
+
+        @media (max-width: 900px) {
+            .eye-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="brand">
+            <i class="fas fa-robot"></i>
+            <span>AI <em>Interview Coach</em></span>
+        </div>
+        <div class="nav-right">
+            <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="eye-tracking.html" class="nav-link" style="color: var(--primary);"><i class="fas fa-eye"></i> Eye
+                Tracking</a>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <h1 style="margin-bottom: 0.3rem;"><i class="fas fa-eye" style="font-size: 1.8rem;"></i> Eye Tracking Practice
+        </h1>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Practice maintaining eye contact and monitoring your
+            expressions in real-time.</p>
+
+        <div id="alert" class="alert"></div>
+
+        <div class="eye-layout">
+            <!-- Main: Video -->
+            <div>
+                <div class="video-container">
+                    <video id="preview" autoplay muted playsinline></video>
+                    <canvas id="trackingCanvas"></canvas>
+                    <div id="gazeWarning" class="warning-overlay">⚠ LOOK AT CAMERA ⚠</div>
+                    <div id="emotionBadge" class="emotion-badge">Neutral (Center)</div>
+                </div>
+
+                <div class="eye-controls">
+                    <button id="startBtn" class="eye-btn primary"><i class="fas fa-play"></i> Start Tracking</button>
+                    <button id="stopBtn" class="eye-btn danger" style="display: none;"><i class="fas fa-stop"></i> Stop
+                        Tracking</button>
+                    <button id="backBtn" class="eye-btn secondary" onclick="window.location.href='dashboard.html'"><i
+                            class="fas fa-arrow-left"></i> Dashboard</button>
+                </div>
+            </div>
+
+            <!-- Sidebar: Info -->
+            <div class="info-sidebar">
+                <div class="info-card">
+                    <h4><i class="fas fa-info-circle"></i> How it works</h4>
+                    <p>The AI analyzes your face to detect eye direction and facial expressions. You'll get real-time
+                        warnings if you look away from the camera.</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-lightbulb"></i> Tips for Success</h4>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Sit at arm's length from the screen</li>
+                        <li><i class="fas fa-check-circle"></i> Ensure even lighting on your face</li>
+                        <li><i class="fas fa-check-circle"></i> Look directly at the camera lens</li>
+                        <li><i class="fas fa-check-circle"></i> Keep a natural, relaxed expression</li>
+                        <li><i class="fas fa-check-circle"></i> Practice for at least 5 minutes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

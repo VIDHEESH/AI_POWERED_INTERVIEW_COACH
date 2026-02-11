@@ -1,0 +1,14 @@
+flask
+flask-cors
+opencv-python-headless
+mediapipe
+scikit-learn
+pypdf
+numpy<2
+fer
+tensorflow
+librosa
+openai-whisper
+
+deepface
+tf-keras

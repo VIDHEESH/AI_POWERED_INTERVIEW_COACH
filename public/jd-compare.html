@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Suitability Check | AI Interview Coach</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .compare-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .compare-form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .compare-form-card h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 0.3rem;
+            background: none;
+            -webkit-text-fill-color: var(--text-bright);
+        }
+
+        .compare-form-card .sub {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .compare-form-card label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .compare-form-card label i {
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        .compare-form-card textarea {
+            resize: vertical;
+        }
+
+        .compare-form-card input[type="file"] {
+            border-style: dashed;
+        }
+
+        .compare-form-card .btn-primary {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Result panel */
+        .result-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: none;
+        }
+
+        .result-panel.visible {
+            display: block;
+        }
+
+        .result-placeholder {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .result-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .result-placeholder p {
+            font-size: 0.9rem;
+        }
+
+        .result-content {
+            display: none;
+        }
+
+        .result-content.visible {
+            display: block;
+        }
+
+        .result-content h3 {
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-content h4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .result-content h4 i {
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .proceed-btn {
+            display: block;
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .proceed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .compare-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="brand">
+            <i class="fas fa-robot"></i>
+            <span>AI <em>Interview Coach</em></span>
+        </div>
+        <div class="nav-right">
+            <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="jd-compare.html" class="nav-link" style="color: var(--primary);"><i class="fas fa-search"></i> JD
+                Check</a>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <h1 style="margin-bottom: 0.3rem;">Job Suitability Check</h1>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Compare your resume against a Job Description to see
+            how well they match.</p>
+
+        <div id="alert" class="alert"></div>
+
+        <div class="compare-layout">
+            <!-- Left: Form -->
+            <div class="compare-form-card">
+                <h2>Upload Details</h2>
+                <p class="sub">Paste the JD and upload your CV to get an analysis.</p>
+
+                <form id="compareForm">
+                    <div class="form-group">
+                        <label for="jobDescription"><i class="fas fa-briefcase"></i> Job Description</label>
+                        <textarea id="jobDescription" rows="8" required
+                            placeholder="Paste the full job description here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvFile"><i class="fas fa-file-alt"></i> Upload CV (PDF or Text)</label>
+                        <input type="file" id="cvFile" accept=".pdf,.txt" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="compareBtn">
+                        <i class="fas fa-search"></i> Analyze Match
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Results -->
+            <div>
+                <!-- Placeholder before results -->
+                <div id="resultPlaceholder" class="compare-form-card">
+                    <div class="result-placeholder">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Your match results will appear here after analysis.</p>
+                    </div>
+                </div>
+
+                <!-- Actual results (hidden initially) -->
+                <div id="resultBox" class="result-panel">
+                    <div class="result-content visible">
+                        <div style="text-align: center;">
+                            <div class="score-circle" id="scoreDisplay">0%</div>
+                            <h3>Match Score</h3>
+                        </div>
+                        <hr style="border-color: var(--border); margin: 1.25rem 0;">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Missing Keywords</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Consider adding
+                            these to your CV:</p>
+                        <div id="missingKeywords"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('#compareForm');
+            const btn = document.querySelector('#compareBtn');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const jd = document.querySelector('#jobDescription').value;
+                const file = document.querySelector('#cvFile').files[0];
+
+                if (!jd || !file) return showAlert('Please provide both JD and CV');
+
+                const formData = new FormData();
+                formData.append('jobDescription', jd);
+                formData.append('cv', file);
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+                try {
+                    const res = await fetch('http://localhost:3000/interview/compare-jd', {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${getToken()}` },
+                        body: formData
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        // Hide placeholder, show results
+                        document.querySelector('#resultPlaceholder').style.display = 'none';
+                        const resultBox = document.querySelector('#resultBox');
+                        resultBox.style.display = 'block';
+
+                        const scoreDisplay = document.querySelector('#scoreDisplay');
+                        const missingContainer = document.querySelector('#missingKeywords');
+
+                        scoreDisplay.textContent = `${data.score}%`;
+
+                        localStorage.setItem('interview_jd', jd);
+                        if (data.cvText) {
+                            localStorage.setItem('interview_resume', data.cvText);
+                        }
+
+                        if (data.missing && data.missing.length > 0) {
+                            missingContainer.innerHTML = data.missing.map(w => `<span class="badge">${w}</span>`).join('');
+                        } else {
+                            missingContainer.innerHTML = '<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Great match!</span>';
+                        }
+
+                        // Proceed button
+                        const existing = document.querySelector('#proceedBtnContainer');
+                        if (existing) existing.remove();
+                        const proceedDiv = document.createElement('div');
+                        proceedDiv.id = 'proceedBtnContainer';
+                        proceedDiv.style.marginTop = '1.5rem';
+                        proceedDiv.innerHTML = `<button id="proceedBtn" class="proceed-btn"><i class="fas fa-rocket"></i> Proceed to Interview</button>`;
+                        resultBox.querySelector('.result-content').appendChild(proceedDiv);
+
+                        document.getElementById('proceedBtn').onclick = () => {
+                            window.location.href = 'interview.html?auto=true';
+                        };
+                    } else {
+                        showAlert(data.error || 'Comparison failed');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('Error connecting to server');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-search"></i> Analyze Match';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

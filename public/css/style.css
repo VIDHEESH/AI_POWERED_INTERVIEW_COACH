@@ -1,0 +1,406 @@
+/* ===== AI Interview Coach — Global Theme ===== */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ===== Design Tokens (Light Mode) ===== */
+:root {
+    /* Core palette — Light Mode */
+    --primary: #3b82f6;
+    /* Vibrant Blue */
+    --primary-dark: #2563eb;
+    /* Darker Blue */
+    --primary-rgb: 59, 130, 246;
+
+    --secondary: #f1f5f9;
+    /* Light Gray */
+    --background: #ffffff;
+    /* Pure White Background */
+    --surface: #f8fafc;
+    /* Very Light Gray Surface */
+    --surface-light: #ffffff;
+    /* White */
+
+    --card-bg: rgba(255, 255, 255, 0.9);
+    /* White Glass */
+
+    --text: #1e293b;
+    /* Dark Slate (Main Text) */
+    --text-muted: #64748b;
+    /* Muted Slate */
+    --text-bright: #0f172a;
+    /* Almost Black (Headings) */
+
+    --success: #10b981;
+    --error: #ef4444;
+    --warning: #f59e0b;
+
+    --border: #e2e8f0;
+    /* Light Gray Border */
+    --border-strong: #cbd5e1;
+    /* Stronger Border */
+
+    --glass: rgba(255, 255, 255, 0.95);
+    --glow: rgba(59, 130, 246, 0.15);
+    --grid-line: rgba(148, 163, 184, 0.1);
+    /* Subtle grid */
+}
+
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== Body ===== */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    /* Subtle grid background */
+    background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+}
+
+/* Ambient glow behind content */
+body::before {
+    content: '';
+    position: fixed;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%;
+    height: 80%;
+    background: radial-gradient(ellipse at 50% 20%, rgba(var(--primary-rgb), 0.10) 0%, transparent 65%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ===== Typography ===== */
+h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-bright);
+}
+
+h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ===== Forms ===== */
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--glow);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    padding: 0.85rem 1.25rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background: rgba(var(--primary-rgb), 0.08);
+    border-color: var(--primary);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--error), #dc2626);
+    color: white;
+}
+
+.btn-logout {
+    padding: 0.45rem 1.2rem;
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+/* ===== Links ===== */
+.link-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.link-text a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.link-text a:hover {
+    color: #60a5fa;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    display: none;
+    font-weight: 500;
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+}
+
+/* ===== Badge ===== */
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(var(--primary-rgb), 0.15);
+    color: var(--primary);
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+/* ===== Score Circle (JD Compare) ===== */
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 auto 1rem;
+    box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.3);
+}
+
+/* ===== Result Box (JD Compare) ===== */
+.result-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    display: none;
+}
+
+/* ===== Common Top Bar ===== */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.topbar .brand i {
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.topbar .brand span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-bright);
+}
+
+.topbar .brand em {
+    font-style: normal;
+    color: var(--primary);
+}
+
+.topbar .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.topbar .nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.topbar .nav-link:hover {
+    color: var(--primary);
+}
+
+/* ===== Page Content Area ===== */
+.page-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2.5rem 3rem;
+}
+
+/* ===== Card Component (used for smaller panels) ===== */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .topbar {
+        padding: 0.75rem 1.5rem;
+    }
+
+    .page-content {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+}
