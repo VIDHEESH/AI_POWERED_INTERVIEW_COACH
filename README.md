@@ -43,8 +43,8 @@ An intelligent mock interview platform that helps candidates prepare for technic
 
 **Clone the repository:**
 ```bash
-git clone https://github.com/VIDHEESH/Projects.git
-cd Projects/ML/AI_POWERED_INTERVIEW_COACH
+git clone https://github.com/VIDHEESH/AI_POWERED_INTERVIEW_COACH.git
+cd AI_POWERED_INTERVIEW_COACH
 ```
 
 **Install Node Dependencies:**
