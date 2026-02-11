@@ -4,21 +4,21 @@ An intelligent mock interview platform that helps candidates prepare for technic
 
 ---
 
-## 📌 Table of Contents
+## Table of Contents
 
-- [Approach](#-approach)
-- [Features Implemented](#-features-implemented)
-- [System Architecture](#-system-architecture)
-- [Project Structure](#-project-structure)
-- [Tech Stack](#-tech-stack)
-- [Setup Instructions](#-setup-instructions)
-- [Environment Variables](#-environment-variables)
-- [Running the Application](#️-running-the-application)
-- [Privacy & Security](#-privacy--security)
+- [Approach](#approach)
+- [Features Implemented](#features-implemented)
+- [System Architecture](#system-architecture)
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [Privacy & Security](#privacy--security)
 
 ---
 
-## 🎯 Approach
+## Approach
 
 The project follows a **microservice-based architecture** with two independent servers working together:
 
@@ -58,7 +58,7 @@ The project follows a **microservice-based architecture** with two independent s
 
 ---
 
-## 🌟 Features Implemented
+## Features Implemented
 
 ### 1. User Authentication
 - Secure **Register** and **Login** system using JWT tokens.
@@ -120,7 +120,7 @@ The project follows a **microservice-based architecture** with two independent s
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -146,7 +146,7 @@ The project follows a **microservice-based architecture** with two independent s
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 AI_POWERED_INTERVIEW_COACH/
@@ -192,7 +192,7 @@ AI_POWERED_INTERVIEW_COACH/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology | Purpose |
 |---|---|---|
@@ -210,7 +210,7 @@ AI_POWERED_INTERVIEW_COACH/
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### 1. Prerequisites
 - **Node.js** (v16+) and npm
@@ -248,7 +248,7 @@ cd ..
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 Create a `.env` file in the project root:
 
@@ -270,7 +270,7 @@ API_KEY=your_google_gemini_api_key
 
 ---
 
-## ▶️ Running the Application
+## Running the Application
 
 Open **two terminals** side by side:
 
@@ -292,7 +292,7 @@ http://localhost:3000
 
 ---
 
-## 🔒 Privacy & Security
+## Privacy & Security
 
 - **Local Processing**: All video analysis (gaze, emotion), audio transcription (Whisper), and resume matching (TF-IDF) happen **entirely on your machine**. No video or audio data leaves your computer.
 - **Minimal Cloud Usage**: Only text-based prompts (JD + Resume text) are sent to the Gemini API for generating questions.
